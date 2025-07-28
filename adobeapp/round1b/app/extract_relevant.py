@@ -12,11 +12,11 @@ INPUT_DIR = "input"
 OUTPUT_DIR = "output"
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
-# ✅ Auto-detect persona and job-to-be-done
+
 persona, job = detect_task(INPUT_DIR)
 query = f"{persona}. Task: {job}"
 
-# ✅ Metadata for output
+
 metadata = {
     "input_documents": [],
     "persona": persona,
@@ -27,7 +27,7 @@ metadata = {
 extracted_sections = []
 refined_subsections = []
 
-# ✅ Check if title is valid for semantic use
+
 def is_valid_title(title):
     title_clean = title.strip().lower()
     return (
@@ -39,7 +39,7 @@ def is_valid_title(title):
         }
     )
 
-# ✅ Extract full text from starting page until next heading
+
 def extract_full_section_text(pdf_path, start_page, current_title, stop_titles):
     try:
         reader = PdfReader(pdf_path)
@@ -64,14 +64,14 @@ def extract_full_section_text(pdf_path, start_page, current_title, stop_titles):
     except Exception as e:
         return f"(Error extracting section: {e})"
 
-# ✅ Process all input PDFs
+
 for file in os.listdir(INPUT_DIR):
     if file.endswith(".pdf"):
         pdf_path = os.path.join(INPUT_DIR, file)
         metadata["input_documents"].append(file)
 
         try:
-            # ✅ Use 1A-style heading extractor
+            #  Use 1A-style heading extractor
             outline_result = extract_headings_from_pdf(pdf_path)
             title = outline_result["title"]
             outline = outline_result["outline"]
@@ -93,7 +93,7 @@ for file in os.listdir(INPUT_DIR):
                     
                 })
 
-                # 🧠 Extract full section text
+                #  Extract full section text
                 stop_titles = titles_in_doc[titles_in_doc.index(section_title) + 1:]
                 refined_text = extract_full_section_text(pdf_path, page_number, section_title, stop_titles)
 
@@ -108,7 +108,7 @@ for file in os.listdir(INPUT_DIR):
         except Exception as e:
             print(f"[!] Error processing {file}: {e}")
 
-# ✅ Final JSON Output
+#  Final JSON Output
 final_output = {
     "metadata": metadata,
     "extracted_sections": extracted_sections,
