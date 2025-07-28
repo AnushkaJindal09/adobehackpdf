@@ -109,18 +109,17 @@ All offline, with no internet dependency.
 
 round1b/
 ├──app/
-│   ├── auto_task_detector.py       # Persona & job detection from text
-│   ├── extract_relevant.py         # Core processing pipeline
-│   ├── outline_extractor.py        # Reused from Round 1A (modular)
-│   ├── relevance_ranker.py         # Ranks section titles by semantic similarity
-│   ├── input/                      # Folder containing input PDFs
-│   ├── output/                     # Output JSON gets saved here
-│   └── __pycache__/                # Python cache (can ignore in Git)
-├── approach_explanation.md         # 300-500 word explanation
-├── Dockerfile                      # Offline container build
-├── requirements.txt                # All required pip packages
-└── README.md                       # This file
-
+│   ├── auto_task_detector.py       
+│   ├── extract_relevant.py         
+│   ├── outline_extractor.py        
+│   ├── relevance_ranker.py         
+│   ├── input/                      
+│   ├── output/                     
+│   └── __pycache__/                
+├── approach_explanation.md         
+├── Dockerfile                      
+├── requirements.txt                
+└── README.md                       
 
 
 ---
