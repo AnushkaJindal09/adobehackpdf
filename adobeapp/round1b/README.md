@@ -169,7 +169,7 @@ This solution builds on the modular design from Round 1A:
       "page_number": 4,
       "importance_rank": 1
     },
-    ...
+    
   ],
   "subsection_analysis": [
     {
@@ -178,7 +178,7 @@ This solution builds on the modular design from Round 1A:
       "page_number": 4,
       "refined_text": "This section discusses SN1 and SN2 mechanisms, including intermediate formation, stereochemistry, and rate-determining steps."
     },
-    ...
+    
   ]
 }
 ```
