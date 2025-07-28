@@ -38,7 +38,7 @@ def best_match_category(text, category_dict, default_category):
 
 def guess_persona(text):
     persona_keywords = {
-        # Food & Cooking
+    
         "Event Planner": ["cook", "home cooking", "recipe", "kitchen", "baking" , "ingredients" ,"recipe"],
         "Professional Chef": ["gourmet", "fine dining", "culinary school", "chef"],
         "Food Blogger": ["blog", "review", "instagram", "recipe blog"],
@@ -50,7 +50,7 @@ def guess_persona(text):
         "Restaurant Owner": ["menu design", "restaurant", "chef special"],
         "Budget Cook": ["affordable", "budget", "cheap meals"],
 
-        # Education
+       
         "School Teacher": ["lesson plan", "classroom", "syllabus", "students"],
         "College Professor": ["lecture", "university", "research", "term paper"],
         "Private Tutor": ["one-on-one", "tutor", "coaching"],
@@ -62,7 +62,7 @@ def guess_persona(text):
         "Research Scholar": ["hypothesis", "methodology", "journal", "peer-reviewed"],
         "Parent of Student": ["parent-teacher", "PTM", "child's progress"],
 
-        # Healthcare
+        
         "General Physician": ["patient", "symptom", "diagnosis"],
         "Surgeon": ["surgery", "operation", "post-op"],
         "Nurse": ["care", "vital signs", "shift", "ward"],
@@ -74,7 +74,7 @@ def guess_persona(text):
         "Hospital Admin": ["facility", "hospital policy", "staffing"],
         "Medical Student": ["clinical rotation", "anatomy", "internship"],
 
-        # Legal
+        
         "Lawyer (Civil/Criminal)": ["case law", "plaintiff", "defendant"],
         "Judge": ["verdict", "courtroom", "hearing"],
         "Law Student": ["case brief", "judgment", "article"],
@@ -91,10 +91,10 @@ def guess_persona(text):
         "Corporate Document Reviewer": ["pdf comment", "annotation", "shared file", "text markup", "review link", "commenting tools", "editor"],
         "Admin Executive": ["document tracking", "request form", "submit report", "signature", "shared workspace", "edit access"],
 
-        # Business & Finance
+        
         "Investment Analyst": ["revenue", "fiscal year", "growth rate", "r&d", "shareholder", "quarterly report", "financial performance", "profit margin", "ebitda", "investment", "market strategy", "competitor analysis", "annual report", "stock performance", "valuation"],
 
-        # Technology
+        
         "Software Developer": ["code", "github", "repository", "function"],
         "Data Scientist": ["machine learning", "pandas", "dataset"],
         "UI/UX Designer": ["wireframe", "user experience", "figma"],
@@ -106,7 +106,7 @@ def guess_persona(text):
         "Cloud Engineer": ["AWS", "GCP", "container", "Kubernetes"],
         "Tech Support Agent": ["ticket", "troubleshoot", "issue"],
 
-        # Travel
+        
         "Solo Traveller": ["solo trip", "hostel", "self-explore"],
         "Budget Backpacker": ["cheap stay", "budget", "hostel"],
         "Luxury Traveller": ["resort", "villa", "spa"],
@@ -114,7 +114,7 @@ def guess_persona(text):
         "Adventure Seeker": ["hike", "trek", "bungee"],
         "Family Vacationer": ["family trip", "kids", "hotel stay"],
 
-        # Influencers
+        
         "Travel Vlogger": ["destination", "vlog", "journey", "trip"],
         "Fitness Influencer": ["gym", "workout", "nutrition"],
         "Meme Creator": ["meme", "funny", "viral"],
