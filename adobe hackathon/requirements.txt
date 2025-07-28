@@ -1,0 +1,4 @@
+PyMuPDF==1.23.5
+pytesseract==0.3.10
+langdetect==1.0.9
+scikit-learn
