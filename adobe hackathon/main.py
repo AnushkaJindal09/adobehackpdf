@@ -14,6 +14,6 @@ for filename in os.listdir(INPUT_DIR):
             result = extract_headings_from_pdf(path)
             with open(os.path.join(OUTPUT_DIR, filename.replace(".pdf", ".json")), "w", encoding="utf-8") as f:
                 json.dump(result, f, indent=2, ensure_ascii=False)
-            print("✅ Extracted")
+            print(" Extracted")
         except Exception as e:
-            print(f"❌ Failed — {e}")
+            print(f" Failed — {e}")
