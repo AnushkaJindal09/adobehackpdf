@@ -1,4 +1,4 @@
-"""import fitz
+import fitz
 import re
 from langdetect import detect
 from collections import defaultdict
@@ -38,7 +38,7 @@ def score_heading(text, size, is_bold, alignment):
     if re.match(r"^[0-9]+(\.[0-9]+)*\s", text):
         score += 2
     if len(text.split()) <= 6:
-        score += 2  # ⬅ Boosting short-line detection
+        score += 2  
 
     return score
 
@@ -74,7 +74,7 @@ def extract_headings_from_pdf(pdf_path):
 
                 font_sizes[size] += 1
 
-    # Determine top font sizes
+    
     top_sizes = [fs[0] for fs in sorted(font_sizes.items(), key=lambda x: -x[1])[:3]]
     size_to_level = {}
     if len(top_sizes) >= 1: size_to_level[top_sizes[0]] = "H1"
@@ -85,7 +85,7 @@ def extract_headings_from_pdf(pdf_path):
     outline = []
     for span in spans_info:
         text = span["text"]
-        if text in seen or span["score"] < 3:  # ⬅ Lowered threshold
+        if text in seen or span["score"] < 3: 
             continue
         seen.add(text)
         level = size_to_level.get(span["size"], "H3")
@@ -95,7 +95,7 @@ def extract_headings_from_pdf(pdf_path):
             "page": span["page"]
         })
 
-    # Title: largest font text on page 1
+    
     title = None
     if top_sizes:
         for span in spans_info:
@@ -109,123 +109,4 @@ def extract_headings_from_pdf(pdf_path):
         "title": title,
         "outline": outline
     }
-"""
-
-import fitz  # PyMuPDF
-import re
-from langdetect import detect
-from collections import defaultdict
-
-def is_heading_candidate(text):
-    if not text or len(text.strip()) < 3:
-        return False
-    if text.replace(" ", "").isdigit():
-        return False
-    if text.startswith(("•", "●", "-", "*")):
-        return False
-    if len(text.split()) > 15:
-        return False
-    return True
-
-def score_heading(text, size, is_bold, alignment, next_text, max_font_size):
-    score = 0
-    try:
-        lang = detect(text)
-        if lang not in ['en', 'hi', 'mr', 'bn', 'ta', 'te', 'gu', 'kn', 'ja', 'ko', 'zh-cn', 'zh-tw', 'fr', 'es', 'de', 'it', 'pt', 'ru', 'ar', 'fa', 'tr']:
-            score -= 1
-    except:
-        score -= 1
-
-    if is_bold:
-        score += 2
-    if size >= 14:
-        score += 2
-    if alignment == "center":
-        score += 1
-    if text.isupper():
-        score += 1
-    if text.endswith(":"):
-        score += 1
-    if len(text.split()) <= 6:
-        score += 1
-    if size >= max_font_size - 0.5:
-        score += 2
-    if re.match(r"^[0-9]+(\\.[0-9]+)*\\s", text):
-        score += 2
-    if next_text and (next_text.startswith("●") or next_text.startswith("•") or len(next_text.split()) > 10):
-        score += 2
-    return score
-
-def extract_headings_from_pdf(pdf_path):
-    doc = fitz.open(pdf_path)
-    spans_info = []
-    font_sizes = defaultdict(int)
-    all_sizes = []
-
-    for page_num, page in enumerate(doc, start=1):
-        blocks = page.get_text("dict")["blocks"]
-        lines = []
-        for block in blocks:
-            for line in block.get("lines", []):
-                line_text = " ".join(span["text"].strip() for span in line["spans"])
-                if not line_text.strip():
-                    continue
-                lines.append((line, line_text.strip()))
-
-        for i, (line, text) in enumerate(lines):
-            if not is_heading_candidate(text):
-                continue
-            first_span = line["spans"][0]
-            size = round(first_span["size"], 1)
-            all_sizes.append(size)
-            font = first_span["font"]
-            flags = first_span["flags"]
-            is_bold = flags & 2 != 0 or "Bold" in font
-            x0 = first_span["bbox"][0]
-            alignment = "center" if 180 < x0 < 420 else "left"
-            next_text = lines[i+1][1] if i + 1 < len(lines) else ""
-
-            font_sizes[size] += 1
-
-            spans_info.append({
-                "text": text,
-                "size": size,
-                "is_bold": is_bold,
-                "alignment": alignment,
-                "page": page_num,
-                "next_text": next_text
-            })
-
-    max_font_size = max(all_sizes) if all_sizes else 14
-
-    for span in spans_info:
-        span["score"] = score_heading(span["text"], span["size"], span["is_bold"], span["alignment"], span["next_text"], max_font_size)
-
-    top_sizes = [fs[0] for fs in sorted(font_sizes.items(), key=lambda x: -x[1])[:3]]
-    size_to_level = {}
-    if len(top_sizes) >= 1: size_to_level[top_sizes[0]] = "H1"
-    if len(top_sizes) >= 2: size_to_level[top_sizes[1]] = "H2"
-    if len(top_sizes) >= 3: size_to_level[top_sizes[2]] = "H3"
-
-    seen = set()
-    outline = []
-    for span in spans_info:
-        text = span["text"]
-        if text in seen or span["score"] < 3:
-            continue
-        seen.add(text)
-        level = size_to_level.get(span["size"], "H3")
-        outline.append({
-            "text": text.rstrip(":"), "level": level, "page": span["page"]
-        })
-
-    title = None
-    for span in spans_info:
-        if span["page"] == 1 and span["size"] == max_font_size:
-            title = span["text"]
-            break
-    if not title:
-        title = "Untitled Document"
-
-    return { "title": title, "outline": outline }
 
