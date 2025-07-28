@@ -9,7 +9,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 for filename in os.listdir(INPUT_DIR):
     if filename.lower().endswith(".pdf"):
         path = os.path.join(INPUT_DIR, filename)
-        print(f"🔍 {filename}")
+        print(f" {filename}")
         try:
             result = extract_headings_from_pdf(path)
             with open(os.path.join(OUTPUT_DIR, filename.replace(".pdf", ".json")), "w", encoding="utf-8") as f:
